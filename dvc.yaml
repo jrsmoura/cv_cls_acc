@@ -1,0 +1,48 @@
+stages:
+  preprocess:
+    foreach:
+      - {dataset: ./data/datasets/ds1}
+      - {dataset: ds2}
+      - {dataset: ds3}
+      - {dataset: ds4}
+    do:
+      cmd: python src/preprocess.py 
+        --input data/raw/{{dataset}} 
+        --output data/preprocessed/{{dataset}}
+      deps:
+        - src/preprocess.py
+        - data/{{dataset}}
+      outs:
+        - data/preprocessed/{{dataset}}
+
+  train:
+    foreach:
+      - { model: VGG16RegressionModel, model_file: vgg16 }
+      - { model: ResNet50RegressionModel, model_file: resnet50  }
+      - { model: EfficientNetRegressionModel, model_file: efficientnet }
+      - { model: MobileNetV3LRegressionModel, model_file: mobilenetv3l }
+    do:
+      cmd: python src/train.py 
+        --input data/preprocessed/{{dataset}} 
+        --model {{model}} 
+        --model_file {{model_file}}
+      deps:
+        - src/train.py
+        - src/{{model}}.py
+      outs:
+        - models/{{model_file}}.pth
+      params:
+        - model: {{model}}
+
+    evaluate:
+      cmd: python src/evaluate.py --model_file models/{{model_file}}_{{dataset}}.pth 
+        --input data/preprocessed/{{dataset}} 
+        --metrics_file metrics/{{model_file}}_{{dataset}}.json
+      deps:
+        - src/evaluate.py
+        - models/{{model_file}}_{{dataset}}.pth
+        - data/preprocessed/{{dataset}}
+      outs:
+        - metrics/{{model_file}}_{{dataset}}.json
+      metrics:
+        - metrics_file: metrics/{{model_file}}_{{dataset}}.json
