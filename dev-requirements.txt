@@ -118,10 +118,6 @@ tbb==2021.11.0
 tensorboard==2.16.2
 tensorboard-data-server==0.7.2
 tensorboard-plugin-wit @ file:///C:/tf/b/tensorboard-plugin-wit_1660162132996/work/tensorboard_plugin_wit-1.8.1-py3-none-any.whl
-tensorflow==2.6.0
-tensorflow-estimator @ file:///home/builder/adipietro/tf/tensorflow-estimator_1630508970172/work/tensorflow_estimator-2.6.0-py2.py3-none-any.whl
-tensorflow-intel==2.16.1
-tensorflow-io-gcs-filesystem==0.31.0
 termcolor @ file:///C:/b/abs_16qe7jhw7n/croot/termcolor_1668084642458/work
 torch==2.3.1+cu121
 torchaudio==2.3.1+cu121

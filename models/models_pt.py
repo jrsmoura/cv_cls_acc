@@ -26,8 +26,7 @@ class VGG16RegressionModel(nn.Module):
         its top layers are removed. Custom layers for regression are added on top.
         """
         super(VGG16RegressionModel, self).__init__()
-        self.base_model = models.vgg16(
-            weights=models.VGG16_Weights.DEFAULT).features
+        self.base_model = models.vgg16(weights=models.VGG16_Weights.DEFAULT).features
         for param in self.base_model.parameters():
             param.requires_grad = False
 
@@ -77,10 +76,8 @@ class ResNet50RegressionModel(nn.Module):
         its top layers are removed. Custom layers for regression are added on top.
         """
         super(ResNet50RegressionModel, self).__init__()
-        self.base_model = models.resnet50(
-            weights=models.ResNet50_Weights.DEFAULT)
-        self.base_model = nn.Sequential(
-            *list(self.base_model.children())[:-2]) 
+        self.base_model = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
+        self.base_model = nn.Sequential(*list(self.base_model.children())[:-2])
         for param in self.base_model.parameters():
             param.requires_grad = False
 
@@ -131,15 +128,14 @@ class EfficientNetRegressionModel(nn.Module):
         """
         super(EfficientNetRegressionModel, self).__init__()
         self.base_model = models.efficientnet_b0(
-            weights=models.EfficientNet_B0_Weights.DEFAULT)
-        self.base_model = nn.Sequential(
-            *list(self.base_model.children())[:-2])
+            weights=models.EfficientNet_B0_Weights.DEFAULT
+        )
+        self.base_model = nn.Sequential(*list(self.base_model.children())[:-2])
         for param in self.base_model.parameters():
             param.requires_grad = False
 
         self.global_avg = nn.AdaptiveAvgPool2d((1, 1))
-        self.dense = nn.Linear(1280,
-                               256)
+        self.dense = nn.Linear(1280, 256)
         self.relu = nn.ReLU()
         self.output_layer = nn.Linear(256, 1)
 
@@ -186,15 +182,14 @@ class InceptionV3RegressionModel(nn.Module):
         """
         super(InceptionV3RegressionModel, self).__init__()
         self.base_model = models.efficientnet_b0(
-            weights=models.Inception_V3_Weights.DEFAULT)
-        self.base_model = nn.Sequential(
-            *list(self.base_model.children())[:-2]) 
+            weights=models.Inception_V3_Weights.DEFAULT
+        )
+        self.base_model = nn.Sequential(*list(self.base_model.children())[:-2])
         for param in self.base_model.parameters():
             param.requires_grad = False
 
         self.global_avg = nn.AdaptiveAvgPool2d((1, 1))
-        self.dense = nn.Linear(1280,
-                               256)
+        self.dense = nn.Linear(1280, 256)
         self.relu = nn.ReLU()
         self.output_layer = nn.Linear(256, 1)
 
@@ -241,16 +236,13 @@ class MobileNetV3LRegressionModel(nn.Module):
         its top layers are removed. Custom layers for regression are added on top.
         """
         super(MobileNetV3LRegressionModel, self).__init__()
-        self.base_model = models.mobilenet_v3_large(
-            weights=models.mobilenet_v3_large)
-        self.base_model = nn.Sequential(
-            *list(self.base_model.children())[:-2]) 
+        self.base_model = models.mobilenet_v3_large(weights=models.mobilenet_v3_large)
+        self.base_model = nn.Sequential(*list(self.base_model.children())[:-2])
         for param in self.base_model.parameters():
             param.requires_grad = False
 
         self.global_avg = nn.AdaptiveAvgPool2d((1, 1))
-        self.dense = nn.Linear(1280,
-                               256)
+        self.dense = nn.Linear(1280, 256)
         self.relu = nn.ReLU()
         self.output_layer = nn.Linear(256, 1)
 
