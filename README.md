@@ -349,21 +349,20 @@ GPU support requires CUDA 12.1 (`torch==2.3.1+cu121` in dev requirements).
 
 ## TO DO
 
-- [ ] Review models implementation
-- [ ] CLI implementation
-- [ ] Benchmark dataset for tests
-- [ ] Setup as lib
+- [X] Review models implementation
+- [X] CLI implementation
+- [X] Benchmark dataset for tests
+- [X] Setup as lib
 - [ ] Implement more models
-- [ ] Different versions of VGG
+- [X] Different versions of VGG
 - [ ] Different versions of ResNet
-- [ ] Insert a fine-tuning option
+- [X] Insert a fine-tuning option
 - [ ] Define a orchestrator
-- [ ] Data Version Control???
 
 ---
 
 ## Author
 
-**Roberto Steiner** — jrsteiner78@gmail.com
+**Roberto Steiner** — jr.steiner@outlook.com
 
 License: MIT
