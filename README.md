@@ -44,7 +44,7 @@ This project provides a modular, plug-and-play framework to benchmark and train 
 
 ## Project Structure
 
-```
+```tree
 cv_cls_acc/
 ├── accelerator/
 │   └── accelerator.py            # (placeholder)
@@ -81,7 +81,7 @@ cv_cls_acc/
 
 All models are defined in `models/models_pt.py` and follow the same architecture pattern:
 
-```
+```bash
 Pre-trained Backbone (frozen)
         ↓
 Global Average Pooling (AdaptiveAvgPool2d → 1×1)
@@ -94,7 +94,7 @@ Linear → scalar output  (regression)
 ```
 
 | Model Class | Backbone | Backbone Output Channels | Head Input |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `VGG16RegressionModel` | VGG16 (features only) | 512 | 512 → 256 → 1 |
 | `ResNet50RegressionModel` | ResNet50 (no classifier) | 2048 | 2048 → 256 → 1 |
 | `EfficientNetRegressionModel` | EfficientNet-B0 (no classifier) | 1280 | 1280 → 256 → 1 |
@@ -109,7 +109,7 @@ All backbone weights are loaded from ImageNet pre-trained defaults and **frozen*
 
 ### Directory Structure Expected
 
-```
+```tree
 data/
 ├── 18/
 │   ├── image1.jpg
@@ -124,7 +124,7 @@ Each subdirectory name is the numeric label (e.g., age). The pipeline reads them
 ### Key Functions — `auxiliary_functions/aux_functions.py`
 
 | Function | Description |
-|---|---|
+| --- | --- |
 | `get_filepaths_and_labels(data_dir)` | Walks the labeled subdirectory structure and returns parallel lists of file paths and float labels |
 | `process_data_pt(image_path, label)` | Loads a single image, normalizes to `[0, 1]`, resizes to `IMG_SIZE` |
 | `create_dataloader(file_paths, labels, batch_size, val_split=0.2)` | Builds `CustomImageDataset`, splits into train/val, returns two `DataLoader`s plus sizes |
@@ -132,6 +132,7 @@ Each subdirectory name is the numeric label (e.g., age). The pipeline reads them
 | `CustomImageDataset` | PyTorch `Dataset` subclass; handles grayscale→RGB expansion, applies transforms |
 
 **Image normalization** uses ImageNet statistics:
+
 - mean: `[0.485, 0.456, 0.406]`
 - std:  `[0.229, 0.224, 0.225]`
 
@@ -142,7 +143,7 @@ Each subdirectory name is the numeric label (e.g., age). The pipeline reads them
 All global parameters live in `config.py`:
 
 | Parameter | Default | Description |
-|---|---|---|
+| --- | --- | --- |
 | `IMG_HEIGHT` / `IMG_WIDTH` | 224 | Input image dimensions |
 | `IMG_SIZE` | `(224, 224)` | Tuple used by transforms |
 | `EPOCHS` | 10 | Training epochs |
@@ -204,6 +205,7 @@ python src/train.py \
 ```
 
 Available `--model_name` values:
+
 - `VGG16RegressionModel`
 - `ResNet50RegressionModel`
 - `EfficientNetRegressionModel`
@@ -230,7 +232,7 @@ make upload
 `finetuning/finetuning.py` implements a **grid search** over:
 
 | Hyperparameter | Values |
-|---|---|
+| --- | --- |
 | Learning rate | Log-spaced from `1e-5` to `1e-1` (5 values) |
 | Momentum | `[0.9, 0.95, 0.99]` |
 | Optimizer | `SGD`, `Adam`, `RMSProp`, `AdamW` |
@@ -257,6 +259,7 @@ python src/evaluate.py \
 ```
 
 **Computed metrics** (via scikit-learn):
+
 - Accuracy
 - Precision (weighted)
 - Recall (weighted)
@@ -273,7 +276,7 @@ The model architecture is inferred automatically from the model path filename (`
 
 Defines a reproducible ML pipeline with three parameterized stages:
 
-```
+```bash
 preprocess (foreach ds1, ds2, ds3, ds4)
     ↓
 train (foreach VGG16, ResNet50, EfficientNet, MobileNetV3L)
@@ -320,7 +323,7 @@ pytest tests/
 **Test coverage for `VGG16RegressionModel`:**
 
 | Test | What it verifies |
-|---|---|
+| --- | --- |
 | `test_instantiation` | Model constructs without errors |
 | `test_forward_output_shape` | Forward pass returns shape `(batch, 1)` for regression |
 | `test_backbone_is_frozen` | All backbone parameters have `requires_grad=False` |
@@ -333,7 +336,7 @@ pytest tests/
 **Core runtime** (`pyproject.toml`):
 
 | Package | Version |
-|---|---|
+| --- | --- |
 | Python | >=3.11 |
 | PyTorch | >=2.12.0 |
 | torchvision | >=0.27.0 |
@@ -363,6 +366,6 @@ GPU support requires CUDA 12.1 (`torch==2.3.1+cu121` in dev requirements).
 
 ## Author
 
-**Roberto Steiner** — jr.steiner@outlook.com
+**Roberto Steiner** — [jr.steiner@outlook.com](mailto:jr.steiner@outlook.com)
 
 License: MIT

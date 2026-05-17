@@ -6,7 +6,9 @@ from torchvision import models
 class VGG16RegressionModel(nn.Module):
     def __init__(self):
         super().__init__()
-        self.base_model = models.vgg16(weights=models.VGG16_Weights.DEFAULT).features
+        self.base_model = models.vgg16(
+            weights=models.VGG16_Weights.DEFAULT
+        ).features
         for param in self.base_model.parameters():
             param.requires_grad = False
 
@@ -26,7 +28,9 @@ class VGG16RegressionModel(nn.Module):
 class ResNet50RegressionModel(nn.Module):
     def __init__(self):
         super().__init__()
-        base = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
+        base = models.resnet50(
+            weights=models.ResNet50_Weights.DEFAULT
+        )
         self.base_model = nn.Sequential(*list(base.children())[:-2])
         for param in self.base_model.parameters():
             param.requires_grad = False
@@ -47,7 +51,9 @@ class ResNet50RegressionModel(nn.Module):
 class EfficientNetRegressionModel(nn.Module):
     def __init__(self):
         super().__init__()
-        base = models.efficientnet_b0(weights=models.EfficientNet_B0_Weights.DEFAULT)
+        base = models.efficientnet_b0(
+            weights=models.EfficientNet_B0_Weights.DEFAULT
+        )
         self.base_model = nn.Sequential(*list(base.children())[:-2])
         for param in self.base_model.parameters():
             param.requires_grad = False
@@ -68,7 +74,9 @@ class EfficientNetRegressionModel(nn.Module):
 class InceptionV3RegressionModel(nn.Module):
     def __init__(self):
         super().__init__()
-        base = models.inception_v3(weights=models.Inception_V3_Weights.DEFAULT)
+        base = models.inception_v3(
+            weights=models.Inception_V3_Weights.DEFAULT
+        )
         self.base_model = nn.Sequential(*list(base.children())[:-2])
         for param in self.base_model.parameters():
             param.requires_grad = False
@@ -89,7 +97,9 @@ class InceptionV3RegressionModel(nn.Module):
 class MobileNetV3LRegressionModel(nn.Module):
     def __init__(self):
         super().__init__()
-        base = models.mobilenet_v3_large(weights=models.MobileNet_V3_Large_Weights.DEFAULT)
+        base = models.mobilenet_v3_large(
+            weights=models.MobileNet_V3_Large_Weights.DEFAULT
+        )
         self.base_model = nn.Sequential(*list(base.children())[:-2])
         for param in self.base_model.parameters():
             param.requires_grad = False
