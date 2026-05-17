@@ -9,12 +9,14 @@ from models.models_pt import (
     VGG16RegressionModel,
     ResNet50RegressionModel,
     EfficientNetRegressionModel,
-    MobileNetV3LRegressionModel
+    MobileNetV3LRegressionModel,
 )
-from auxiliary_functions.aux_functions import get_filepaths_and_labels, \
-    create_dataloader
+from auxiliary_functions.aux_functions import (
+    get_filepaths_and_labels,
+    create_dataloader,
+)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     """
     Main training script for the regression models.
 
@@ -33,9 +35,7 @@ if __name__ == '__main__':
 
     # Create dataloaders for training and validation
     train_loader, val_loader, train_size, val_size = create_dataloader(
-        file_paths,
-        labels,
-        config.BATCH_SIZE
+        file_paths, labels, config.BATCH_SIZE
     )
 
     print(f"Train Size: {train_size}")
@@ -51,7 +51,7 @@ if __name__ == '__main__':
     optimizer = optim.Adam(model.parameters(), lr=config.LEARNING_RATE)
 
     num_epochs = config.EPOCHS
-    best_val_loss = float('inf')
+    best_val_loss = float("inf")
     patience = 3
     patience_counter = 0
 
@@ -78,8 +78,8 @@ if __name__ == '__main__':
         val_loss = 0.0
         with torch.no_grad():
             for images, labels in val_loader:
-                images, labels = images.to(config.DEVICE), labels.to(
-                    config.DEVICE)
+                images, labels = images.to(
+                    config.DEVICE), labels.to(config.DEVICE)
 
                 outputs = model(images)
                 loss = criterion(outputs.squeeze(), labels)
@@ -88,17 +88,16 @@ if __name__ == '__main__':
 
         val_loss /= val_size
 
-        print(
-            f'Epoch {epoch + 1}/{num_epochs},
-            Train Loss: {train_loss:.4f},
-            Val Loss: {val_loss:.4f}')
+        print(f"Epoch {epoch + 1}/{num_epochs}")
+        print(f"Train Loss: {train_loss:.4f}")
+        print(f"Val Loss: {val_loss:.4f}")
 
         # Check for improvement in validation loss and implement early stopping
         if val_loss < best_val_loss:
             best_val_loss = val_loss
             patience_counter = 0
             torch.save(model.state_dict(),
-                       'saved_models/mobileNetV3Large_model_v1.pth')
+                       "saved_models/mobileNetV3Large_model_v1.pth")
         else:
             patience_counter += 1
             if patience_counter >= patience:
